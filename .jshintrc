@@ -1,0 +1,18 @@
+{
+"node": true,
+"mocha": true,
+"indent": true,
+"eqeqeq": true,
+"asi": false,
+"quotmark": false,
+"strict": true,
+"sub": false,
+"plusplus": false,
+"newcap": true,
+"undef": true,
+"unused": true,
+"laxcomma": false,
+"asi": false,
+"esversion": 6,
+"loopfunc": false
+}

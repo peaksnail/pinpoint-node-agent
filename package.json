@@ -1,0 +1,38 @@
+{
+  "name": "pinpoint-node-agent",
+  "version": "2.1.0",
+  "description": "pinpoint node agent",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "chai": "^3.5.0",
+    "continuation-local-storage": "^3.1.7",
+    "later": "^1.2.0",
+    "lodash": "^4.13.1",
+    "log4js": "^0.6.36",
+    "moment": "^2.13.0",
+    "shelljs": "^0.7.0",
+    "node-int64": "^0.4.0",
+    "thrift": "^0.9.3",
+    "stack-trace": "^0.0.9"
+  },
+  "devDependencies": {
+    "mocha": "^2.5.3"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:peaksnail/pinpoint-node-agent.git"
+  },
+  "keywords": [
+    "pinpoint",
+    "node",
+    "apm"
+  ],
+  "author": "psnail",
+  "license": "ISC"
+}
