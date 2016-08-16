@@ -1,12 +1,12 @@
 ### Pinpoint Node Agent
 
-this is node agent for pinpoint
+This is node agent for pinpoint
 
-[pinpoint introduction](https://github.com/naver/pinpoint) 
+For details, please refer to [pinpoint introduction](https://github.com/naver/pinpoint)
 
-##### Plugin Development Guide
+###### Plugin Development Guide
 
-[node agent plugin development guide](https://github.com/peaksnail/pinpoint-node-agent/wiki/Pinpoint-node-agent-Plugin-Developer-Guide)
+Please refer to [node agent plugin development guide](https://github.com/peaksnail/pinpoint-node-agent/wiki/Pinpoint-node-agent-Plugin-Developer-Guide)
 
 ### Supported Modules
 
@@ -30,7 +30,7 @@ For feature requests and bug reports, feel free to post them [here](https://gith
 
     2 cd pinpoint-node-agent && npm install
 
-    3 insert "require('${path}/pinpoint-node-agent')" into the first line in the entry file of your project
+    3 insert "require('${path}/pinpoint-node-agent')" into the entry file on the first line of your project
 
     4 restart your project
 
@@ -40,24 +40,23 @@ For feature requests and bug reports, feel free to post them [here](https://gith
 
     2 agent.application: node application name
 
-	3 trace.manager.enable: using child process handle serializtion and data sending to improve performance
+    3 trace.manager.enable: using child process handle serializtion and data sending to improve performance
 
-  	4 trace.metadata.retention: let node agent wait n(configuration)ms to send trace data after the finish of current callstack
+    4 trace.metadata.retention: let node agent wait n(configuration)ms to send trace data after the finish of current callstack
 
     5 profiler.collector.ip: collector ip
 
 ### Attention
 
-##### Performance Loss
-	
+###### Performance Loss
+
 about 7% when trace.manager.enable is true and 30% when trace.manager.enable is false
 
-##### ServiceType Code
+###### ServiceType Code
 
-ServiceType code must be unique
+ServiceType code must be unique.For more details,please refer to [plugin development guide](https://github.com/naver/pinpoint/wiki/Pinpoint-Plugin-Developer-Guide)
 
-##### Unsupported Modules
+###### Unsupported Modules
 
 * async: node agent can not work in async
-
 
