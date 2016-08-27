@@ -15,6 +15,7 @@ var cp = require('child_process');
 var LoggerFactory = require('../utils/logger_factory.js');
 var MethodDescriptorGenerator = require('../utils/method_descriptor_generator.js');
 var path = require('path');
+var PacketUtil = require('../utils/packet_util.js');
 var SerializeFactory = require('../thrift/io/serialize.js');
 var UdpClient = require('../socket/udp_client.js');
 var TcpClient = require('../socket/tcp_client.js');
@@ -53,7 +54,7 @@ Agent.prototype.startTcpClient = function () {
     logger.info('init tcp client');
     this.tcpClient = new TcpClient(this.collectorIp, this.collectorTcpPort);
     this.tcpClient.setSerialize(new SerializeFactory());
-    this.tcpClient.connect();
+    this.tcpClient.connect(PacketUtil.PacketDecode);
 };
 
 Agent.prototype.startUdpClient = function () {

@@ -26,16 +26,14 @@ var TcpClient = function (host, port) {
 
 Objects.extends(false, TcpClient, SocketClient);
 
-TcpClient.prototype.connect = function () {
+TcpClient.prototype.connect = function (dataHandler) {
 
     logger.info('use tcp server ' + this.host + ':' + this.port);
     this.client.connect(this.port, this.host, function () {
         logger.info('build connection success');
     });
 
-    this.client.on('data', function (data) {
-        logger.info('received: ' + data);
-    });
+    this.client.on('data', dataHandler);
 
     this.client.on('close', function () {
         logger.info('connection closed');
@@ -52,8 +50,22 @@ TcpClient.prototype.connect = function () {
 TcpClient.prototype.send = function (message, callback){
 
     if (this.SerializeFactory) {
-        message = new PacketUtil(message, this.SerializeFactory);
+        message = new PacketUtil.PacketEncode(message, this.SerializeFactory);
     }
+    var status = this.client.write(message, function (err) {
+        if (err) {
+            logger.warn('message request failed!');
+        }
+        logger.info('message request success!');
+    });
+
+    if (typeof callback === 'function') {
+        callback(status);
+    }
+};
+
+TcpClient.prototype.send_directly = function (message, callback){
+
     var status = this.client.write(message, function (err) {
         if (err) {
             logger.warn('message request failed!');

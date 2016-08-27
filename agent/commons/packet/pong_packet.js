@@ -1,6 +1,6 @@
 /**
  *
- * send packet class
+ * pong packet class
  *
  * Date: 2016-08-24 21:30
  * Author: psnail
@@ -12,7 +12,6 @@ var BasicPacket = require('./basic_packet.js');
 var Objects = require('../../utils/objects.js');
 var PacketType = require('./packet_type.js');
 var FixedBuffer = require('../buffer/fixed_buffer.js');
-var PayloadPacket = require('../../utils/payload_packet.js');
 
 var PongPacket = function () {
 };

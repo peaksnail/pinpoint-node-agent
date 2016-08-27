@@ -21,8 +21,12 @@ var PayloadPacket = {
         }
     },
 
-    readPayload : function () {
-    
+    readPayload : function (buffer) {
+        var len = buffer.readInt();    
+        if(len <= 0){
+            return new Buffer();
+        }
+        return buffer.readBytes(len);
     }
 
 };

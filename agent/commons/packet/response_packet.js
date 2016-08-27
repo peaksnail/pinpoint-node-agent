@@ -24,6 +24,14 @@ var ResponsePacket = function (requestId, payload) {
 
 Objects.extends(false, ResponsePacket, BasicPacket);
 
+ResponsePacket.prototype.setRequestId = function (requestId) {
+    this.requestId = requestId;
+};
+
+ResponsePacket.prototype.getRequestId = function (requestId) {
+    return this.requestId;
+};
+
 ResponsePacket.prototype.getPacketType = function () {
     return PacketType.APPLICATION_RESPONSE;
 };
@@ -35,5 +43,16 @@ ResponsePacket.prototype.toBuffer = function () {
     return PayloadPacket.appendPayload(header, this.payload);
 };
 
+ResponsePacket.readBuffer = function (packetType, buffer) {
+    if(packetType !== PacketType.APPLICATION_RESPONSE){
+        return;
+    }
+    var messageId = buffer.readInt();
+    var payload = PayloadPacket.readPayload(buffer);
+    //todo payload to buffer
+    var responsePacket = new ResponsePacket(0, new Buffer([payload]));
+    responsePacket.setRequestId(messageId);
+    return responsePacket;
+};
 
 module.exports = ResponsePacket;

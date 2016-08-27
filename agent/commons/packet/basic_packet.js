@@ -13,8 +13,8 @@ var Objects = require('../../utils/objects.js');
 
 
 var BasicPacket = function (payload) {
-    if (payload === null) {
-        throw new Error('payload can not be null!');
+    if (!payload) {
+        throw new Error('payload can not be null or undefined!');
     }
     this.payload = payload;
 };
