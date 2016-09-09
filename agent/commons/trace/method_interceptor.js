@@ -8,7 +8,7 @@
  */
 
 'use strict';
-var cls= require('continuation-local-storage');
+var cls= require('../cls');
 var PinpointTraceMetaData = require('../../utils/constants.js').PinpointTraceMetaData;
 var TRACE_CONTEXT = PinpointTraceMetaData.TRACE_CONTEXT;
 

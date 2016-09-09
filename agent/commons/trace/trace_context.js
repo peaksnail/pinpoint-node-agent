@@ -8,7 +8,7 @@
 
 'use strict';
 
-var cls = require('continuation-local-storage');
+var cls = require('../cls');
 var Configuration = require('../../conf/read_config.js');
 var Constants = require('../../utils/constants.js').ConfigConstants;
 var loggerFactory = require('../../utils/logger_factory.js');
