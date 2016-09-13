@@ -31,7 +31,7 @@ var Agent = function (conf) {
     this.collectorIp = conf.get(ConfigConstants.PROFILER_COLLECTOR_IP, '127.0.0.1');
     this.collectorSpanPort = conf.get(ConfigConstants.PROFILER_COLLECTOR_SPAN_PORT, '9996');
     this.collectorTcpPort = conf.get(ConfigConstants.PROFILER_COLLECTOR_TCP_PORT, '9994');
-    this.collectorSpanStatPort = conf.get(ConfigConstants.PROFILER_COLLECTOR_SPAN_STAT_PORT, '9995');
+    this.collectorStatPort = conf.get(ConfigConstants.PROFILER_COLLECTOR_STAT_PORT, '9995');
     this.traceManagerEnable = conf.get(ConfigConstants.TRACE_MANAGER_ENABLE, false);
     this.conf = conf;
     this.agentId = conf.get(ConfigConstants.AGENT_ID, 'node-app-id');
@@ -40,7 +40,7 @@ var Agent = function (conf) {
     this.agentStartTime = Date.now();
     this.tcpClient = null;
     this.udpSpanClient = null;
-    this.udpSpanStatClient = null;
+    this.udpStatClient = null;
     logger.info('start pinpoint node agent');
 };
 
@@ -61,9 +61,9 @@ Agent.prototype.startUdpClient = function () {
     if (!this.traceManagerEnable) {
         logger.info('init udp client in local process');
         this.udpSpanClient = new UdpClient(this.collectorIp, this.collectorSpanPort);
-        this.udpSpanStatClient = new UdpClient(this.collectorIp, this.collectorSpanStatPort);
+        this.udpStatClient = new UdpClient(this.collectorIp, this.collectorStatPort);
         this.udpSpanClient.setSerialize(new SerializeFactory());
-        this.udpSpanStatClient.setSerialize(new SerializeFactory());
+        this.udpStatClient.setSerialize(new SerializeFactory());
     }
 };
 

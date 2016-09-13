@@ -65,11 +65,11 @@ var Client = function udpClient() {
     var conf = new Configuration();
     this.collectorIp = conf.get(ConfigConstants.PROFILER_COLLECTOR_IP, '127.0.0.1');
     this.collectorSpanPort = conf.get(ConfigConstants.PROFILER_COLLECTOR_SPAN_PORT, '9996');
-    this.collectorSpanStatPort = conf.get(ConfigConstants.PROFILER_COLLECTOR_SPAN_STAT_PORT, '9995');
+    this.collectorStatPort = conf.get(ConfigConstants.PROFILER_COLLECTOR_STAT_PORT, '9995');
     this.udpSpanClient = new UdpClient(this.collectorIp, this.collectorSpanPort);
-    this.udpSpanStatClient = new UdpClient(this.collectorIp, this.collectorSpanStatPort);
+    this.udpStatClient = new UdpClient(this.collectorIp, this.collectorStatPort);
     this.udpSpanClient.setSerialize(new SerializeFactory());
-    this.udpSpanStatClient.setSerialize(new SerializeFactory());
+    this.udpStatClient.setSerialize(new SerializeFactory());
 };
 
 var client = new Client();
