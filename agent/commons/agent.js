@@ -19,6 +19,7 @@ var PacketUtil = require('../utils/packet_util.js');
 var SerializeFactory = require('../thrift/io/serialize.js');
 var UdpClient = require('../socket/udp_client.js');
 var TcpClient = require('../socket/tcp_client.js');
+var v8 = require('v8');
 
 
 var logger = LoggerFactory.getLogger(__filename);
@@ -94,9 +95,21 @@ Agent.prototype.startTraceManager = function () {
     if (this.traceManagerEnable) {
         logger.info('start fork trace manager');
         this.traceManager = cp.fork(path.join(__dirname, 'trace', 'trace_manager.js'));
+        //send parent info to trace manager
+        logger.info('send parent info to trace manager!');
+        var heapMem = (v8.getHeapStatistics())['heap_size_limit'];
+        this.traceManager.send({type: 'PARENT_INFO', pid: process.pid, heapMem: heapMem});
+        logger.info('pid is: ' + process.pid + ',heapMem is: ' + heapMem);
     }
 };
 
+Agent.prototype.startAgentStatCollector = function () {
+    if (!this.traceManagerEnable) {
+        logger.info('start agent stat collector in local process');
+        var agentStatCollector = require('../commons/metric/agent_stat_monitor.js');
+        agentStatCollector(this.udpStatClient);
+    }
+};
 
 
 module.exports = Agent;

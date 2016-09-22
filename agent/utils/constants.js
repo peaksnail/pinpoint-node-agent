@@ -22,6 +22,7 @@ var ConfigConstants = {
     AGENT_SERVICE_TYPE : 'agent.service.type',
     TRACE_METADATA_RETENTION : 'trace.metadata.retention',
     TRACE_MANAGER_ENABLE : 'trace.manager.enable',
+    AGENT_STAT_COLLECT_INTERVAL : 'agent.stat.collect.interval',
 
     //todo add more constants
 

@@ -18,6 +18,12 @@ var Ttypes = require('../../thrift/dto/Trace_types.js');
 var logger = LoggerFactory.getLogger(__filename);
 
 
+function startAgentStatCollector(udpStatClient, data) {
+    logger.info('start agent stat collector in child process');
+    var agentStatCollector = require('../metric/agent_stat_monitor.js');
+    agentStatCollector(udpStatClient, data);
+}
+
 function getSpan(object) {
 
     //reset transactionId
@@ -80,6 +86,15 @@ process.on('message', function get(data) {
     try {
         //you should convert the data to TSpan
         //todo handle other data like span stat
+
+        // get parent info
+        if(data.type === 'PARENT_INFO') {
+            // start agent stat collector
+            startAgentStatCollector(client.udpStatClient, data);
+            return;
+        }
+
+        // handle span
         var message = getSpan(data);
         client.udpSpanClient.send(message);
     } catch(err) {
@@ -87,3 +102,5 @@ process.on('message', function get(data) {
     }
 
 });
+
+
