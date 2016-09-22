@@ -98,7 +98,8 @@ Agent.prototype.startTraceManager = function () {
         //send parent info to trace manager
         logger.info('send parent info to trace manager!');
         var heapMem = (v8.getHeapStatistics())['heap_size_limit'];
-        this.traceManager.send({type: 'PARENT_INFO', pid: process.pid, heapMem: heapMem});
+        var data = {type: 'PARENT_INFO', pid: process.pid, heapMem: heapMem, agentId: this.agentId, agentStartTime: this.agentStartTime};
+        this.traceManager.send(data);
         logger.info('pid is: ' + process.pid + ',heapMem is: ' + heapMem);
     }
 };

@@ -23,7 +23,8 @@ var conf = new Configuration();
 var logger = LoggerFactory.getLogger(__filename);
 var interval = conf.get(ConfigConstants.AGENT_STAT_COLLECT_INTERVAL, 10000);
 var TRACE_MANAGER_ENABLE = conf.get(ConfigConstants.TRACE_MANAGER_ENABLE, false);
-var pid,heap_max_memory;
+
+var pid,heap_max_memory,agentId,agentStartTime;
 pidUsage = bluebird.promisifyAll(pidUsage);
 
 function createTJvmGc(stat) {
@@ -54,8 +55,8 @@ function createTCpuLoad(data) {
 
 function createTAgentStat(data) {
     var tAgentStat = new TAgentStat();
-    tAgentStat.agentId = global.PinpointNodejsAgent.agentId;
-    tAgentStat.startTimestamp = global.PinpointNodejsAgent.agentStartTime;
+    tAgentStat.agentId = agentId;
+    tAgentStat.startTimestamp = agentStartTime;
     tAgentStat.timestamp = Date.now();
     tAgentStat.collectInterval = 1000;
     tAgentStat.cpuLoad = data['tCpuLoad'];
@@ -96,6 +97,8 @@ function agentStatCollector(udpStatClient, pidInfo) {
         if (pidInfo) {
             pid = pidInfo.pid;
             heap_max_memory = pidInfo.heapMem;
+            agentId = pidInfo.agentId;
+            agentStartTime = pidInfo.agentStartTime;
             logger.info('get parent process info,pid is: ' + pid + ',heap mem is: ' + heap_max_memory);
         } else {
             logger.info('get parent process info failed,stop stat collector!');
@@ -104,6 +107,8 @@ function agentStatCollector(udpStatClient, pidInfo) {
     } else {
         pid = process.pid; 
         heap_max_memory = (v8.getHeapStatistics())['heap_size_limit'];
+        agentId = global.PinpointNodejsAgent.agentId;
+        agentStartTime = global.PinpointNodejsAgent.agentStartTime;
         logger.info('get current process info,pid is: ' + pid + ',heap mem is: ' + heap_max_memory);
     }
     schedule.scheduleJob(rule, agentStatMonitor.bind({udpStatClient: udpStatClient}));
