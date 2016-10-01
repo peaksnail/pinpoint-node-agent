@@ -8,15 +8,22 @@
   },
   "dependencies": {
     "chai": "^3.5.0",
+    "async-listener": "^0.6.3",
+    "bluebird": "^3.4.6",
     "continuation-local-storage": "^3.1.7",
+    "cpu-usage": "^0.1.0",
+    "emitter-listener": "^1.0.1",
     "later": "^1.2.0",
     "lodash": "^4.13.1",
     "log4js": "^0.6.36",
     "moment": "^2.13.0",
     "shelljs": "^0.7.0",
+    "node-schedule": "^1.1.1",
+    "stack-trace": "^0.0.9",
     "node-int64": "^0.4.0",
-    "thrift": "^0.9.3",
-    "stack-trace": "^0.0.9"
+    "pidusage": "^1.0.7",
+    "shimmer": "^1.1.0",
+    "thrift": "^0.9.3"
   },
   "devDependencies": {
     "mocha": "^2.5.3"
@@ -26,8 +33,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "ssh://git@github.com:peaksnail/pinpoint-node-agent.git"
+    "url": "git+https://github.com/peaksnail/pinpoint-node-agent.git"
   },
+  "homepage": "https://github.com/peaksnail/pinpoint-node-agent#readme"
   "keywords": [
     "pinpoint",
     "node",
@@ -35,4 +43,7 @@
   ],
   "author": "psnail",
   "license": "ISC"
+  "bugs": {
+    "url": "https://github.com/peaksnail/pinpoint-node-agent/issues"
+  },
 }
