@@ -35,15 +35,15 @@
     "type": "git",
     "url": "git+https://github.com/peaksnail/pinpoint-node-agent.git"
   },
-  "homepage": "https://github.com/peaksnail/pinpoint-node-agent#readme"
+  "homepage": "https://github.com/peaksnail/pinpoint-node-agent#readme",
   "keywords": [
     "pinpoint",
     "node",
     "apm"
   ],
   "author": "psnail",
-  "license": "ISC"
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/peaksnail/pinpoint-node-agent/issues"
-  },
+  }
 }
