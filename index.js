@@ -8,6 +8,10 @@
  */
 
 'use strict';
+
+//get project module paths
+global.projectModulePaths = module.parent ? module.parent.paths : [];
+
 var Agent = require('./agent/commons/agent.js');
 var Configuration = require('./agent/conf/read_config.js');
 

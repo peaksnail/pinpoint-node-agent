@@ -49,6 +49,11 @@ var haveLoaded = {};
 //hack the module load function
 _module._load = function () {
 
+    //refresh module paths
+    arguments[1].paths = [].concat(global.projectModulePaths.filter( function (item) {
+                return this.paths.indexOf(item) < 0; 
+            }.bind({paths: arguments[1].paths})),
+            arguments[1].paths);
     var module_name = arguments[0];
     var parent = arguments[1];
     var instance;
