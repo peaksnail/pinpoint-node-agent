@@ -55,8 +55,3 @@ about 7% when trace.manager.enable is true and 30% when trace.manager.enable is 
 ###### ServiceType Code
 
 ServiceType code must be unique.For more details,please refer to [plugin development guide](https://github.com/naver/pinpoint/wiki/Pinpoint-Plugin-Developer-Guide)
-
-###### Unsupported Modules
-
-* async: node agent can not work in async
-
