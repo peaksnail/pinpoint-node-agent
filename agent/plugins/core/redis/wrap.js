@@ -9,8 +9,10 @@
 
 'use strict';
 var AnnotationConstants = require('./constants.js').AnnotationConstants;
+var cls = require('../../../commons/cls');
 var interceptor = require('../../../commons/trace/method_interceptor.js');
 var PluginConstants = require('./constants.js').PluginConstants;
+var PinpointTraceMetaData = require('../../../utils/constants.js').PinpointTraceMetaData;
 var RedisUtil = require('../../../utils/sql/redis_util.js');
 var ServiceTypeConstants = require('./constants.js').ServiceTypeConstants;
 var traceContextFactory = require('../../../commons/trace/trace_context.js').traceContextFactory;
@@ -36,6 +38,8 @@ var wrap = function (redis) {
         spanEventRecorder.recordApi('redis.RedisClient.prototype.internal_send_command');
         spanEventRecorder.recordAttribute(AnnotationConstants.sql, RedisUtil.getSqlString(commandObj.command, commandObj.args));
         spanEventRecorder.recordDestinationId(PluginConstants.destinationId);
+
+        var ns = cls.getNamespace(PinpointTraceMetaData.TRACE_CONTEXT);
         function redis0command0callback() {
 
             //there has spanevent in callstack,record exception for spanevent
@@ -45,6 +49,7 @@ var wrap = function (redis) {
 
             if (originalCb && (typeof originalCb) === 'function') {
                 /* jshint validthis: true */
+                originalCb = ns.bind(originalCb);
                 var cbSpanEventRecorder = traceContext.continueTraceObject();
                 cbSpanEventRecorder.recordServiceType(ServiceTypeConstants.callback);
                 cbSpanEventRecorder.recordApi('redis.command.callback');
@@ -53,7 +58,8 @@ var wrap = function (redis) {
                 return ret;
             }
         }
-        commandObj.callback = redis0command0callback;
+
+        commandObj.callback = ns.bind(redis0command0callback);
         var args = [commandObj];
         var ret = original.apply(proxy, args);
         //specila handler: record time consumption for sql exec
@@ -122,7 +128,8 @@ var wrap = function (redis) {
         traceContext.endTraceObject();
         return ret;
     }
-    redis.RedisClient.prototype.send_command = interceptor(originalSendCommand, sendCommand);
+    //disable the version 2.4.2
+    //redis.RedisClient.prototype.send_command = interceptor(originalSendCommand, sendCommand);
 
     return redis;
 };

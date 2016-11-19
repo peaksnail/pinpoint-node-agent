@@ -8,6 +8,7 @@
  */
 
 'use strict';
+var cls = require('../../../commons/cls');
 var PinpointNodejsAgent = global.PinpointNodejsAgent;
 var PinpointMetaData = require('../../../utils/constants.js').PinpointMetaData;
 var PluginConstants = require('./amqp-rpc_constants.js').PluginConstants;
@@ -73,6 +74,8 @@ var wrap = function (amqpRPC) {
 			traceContext.endTraceObject();
    		}
 
+        var ns = cls.getNamespace(PinpointTraceMetaData.TRACE_CONTEXT);
+        original_callback = ns.bind(original_callback);
    		var args = [cmd, params, original_callback, context, options];
 		var ret;
         try {
