@@ -37,7 +37,11 @@ defaultAgent.sendApiInfo();
 //start trace manager
 defaultAgent.startTraceManager();
 
+//load sampler
+defaultAgent.loadSampler();
+
 //start agent stat collector
+//
 defaultAgent.startAgentStatCollector();
 
 module.exports = {};

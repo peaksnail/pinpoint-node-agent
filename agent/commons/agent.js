@@ -17,6 +17,7 @@ var MethodDescriptorGenerator = require('../utils/method_descriptor_generator.js
 var path = require('path');
 var PacketUtil = require('../utils/packet_util.js');
 var SerializeFactory = require('../thrift/io/serialize.js');
+var SamplerFactory = require('./sampler/sampler_factory.js');
 var UdpClient = require('../socket/udp_client.js');
 var TcpClient = require('../socket/tcp_client.js');
 var v8 = require('v8');
@@ -102,6 +103,13 @@ Agent.prototype.startTraceManager = function () {
         this.traceManager.send(data);
         logger.info('pid is: ' + process.pid + ',heapMem is: ' + heapMem);
     }
+};
+
+Agent.prototype.loadSampler = function () {
+  var profilerSamplingEnable = this.conf.get('profiler.sampling.enable', true);
+  var profilerSamplingRate = this.conf.get('profiler.sampling.rate', 1);
+  this.sampler = SamplerFactory.createSampler(profilerSamplingEnable, profilerSamplingRate);
+  logger.info('load sampler: ' + this.sampler.toString());
 };
 
 Agent.prototype.startAgentStatCollector = function () {
