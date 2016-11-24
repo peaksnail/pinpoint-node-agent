@@ -68,9 +68,7 @@ SpanRecorder.prototype.createNewSpan = function createNewSpan(traceId) {
 };
 
 SpanRecorder.prototype.getNextSpanId = function getNextSpanId() {
-    if (this.nextSpanId === undefined) {
-        this.nextSpanId = SequenceNumberSingleton.getSequenceNumber();
-    }
+    this.nextSpanId = SequenceNumberSingleton.getSequenceNumber();
     return this.nextSpanId;
 };
 
