@@ -31,7 +31,7 @@ if (HANDLE_RETENTION > 0) {
     logger.info('HANDLE_RETENTION is invalid: ' + HANDLE_RETENTION); 
 }
 
-var TraceContext = function TraceContext() {
+var TraceContext = function TraceContext(sampling) {
     
     this.spanRecorder = null;
     this.spanEventRecorder = null;
@@ -40,6 +40,7 @@ var TraceContext = function TraceContext() {
     this.depth = 1;
     this.isRootTrace = true;
     this.transferNs = false;
+    this.sampling = sampling;
 
 };
 
@@ -114,6 +115,10 @@ TraceContext.prototype.resetNamespaceTransaction = function resetNamespaceTransa
     }    
 };
 
+TraceContext.prototype.canSampled = function () {
+    return this.sampling;
+};
+
 /*
  * @deprecate can not work in strict mode
  *
@@ -161,21 +166,26 @@ function traceDataSend() {
     
 }
 
-function traceContextFactory() {
-    var namespace;
-    var transaction;
-    //it must has the namespace because it called after method_interceptor
-    namespace = cls.getNamespace(PinpointTraceMetaData.TRACE_CONTEXT);
-    //if(namespace === undefined){
-    //    namespace = cls.createNamespace(PinpointTraceMetaData.TRACE_CONTEXT);
-    //}
-    transaction = namespace.get(PinpointTraceMetaData.TRANSACTION);
-    if (!(transaction instanceof TraceContext)) {
-        transaction = new TraceContext();
-        namespace.set(PinpointTraceMetaData.TRANSACTION, transaction);
-    }
-    return transaction;
+/**
+ * isSampling means new transaction must be sampled
+ *
+ * @param isSampling
+ * @returns {*}
+ */
+function traceContextFactory(isSampling) {
 
+  //it must has the namespace because it called after method_interceptor
+  var namespace = cls.getNamespace(PinpointTraceMetaData.TRACE_CONTEXT);
+  var transaction = namespace.get(PinpointTraceMetaData.TRANSACTION);
+
+  if (!transaction) {
+    transaction = new TraceContext(isSampling || PinpointNodejsAgent.sampler.isSampling());
+    namespace.set(PinpointTraceMetaData.TRANSACTION, transaction);
+  }
+  if (!transaction.canSampled()) {
+    return null;
+  }
+  return transaction;
 }
 
 module.exports.TraceContext = TraceContext;
