@@ -2,7 +2,7 @@
  * constants for amqp-rpc plugin
  *
  * Date: 2016-05-20 21:50
- * Author: psnail
+ * Author: zengshaojian
  */
 
 'use strict';

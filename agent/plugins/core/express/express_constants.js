@@ -2,7 +2,7 @@
  * constants for express plugin
  *
  * Date: 2016-05-31 15:50
- * Author: psnail
+ * Author: zengshaojian
  */
 
 'use strict';

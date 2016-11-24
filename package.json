@@ -1,6 +1,6 @@
 {
   "name": "pinpoint-node-agent",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "pinpoint node agent",
   "main": "index.js",
   "directories": {
@@ -23,7 +23,8 @@
     "node-int64": "^0.4.0",
     "pidusage": "^1.0.7",
     "shimmer": "^1.1.0",
-    "thrift": "^0.9.3"
+    "thrift": "^0.9.3",
+    "util": "^0.10.3"
   },
   "devDependencies": {
     "mocha": "^2.5.3"
