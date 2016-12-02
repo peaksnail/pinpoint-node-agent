@@ -23,16 +23,28 @@ var wrap = function (redis) {
   var originalInternalSendCommand = redis.RedisClient.prototype.internal_send_command;
   //destinationdId is redis, need record in span event
   function internalSendCommand(original, proxy, argument) {
+
+    var ns = cls.getNamespace(PinpointTraceMetaData.TRACE_CONTEXT);
     var commandObj = argument[0];
     var originalCb = commandObj.callback;
     var traceContext = traceContextFactory();
     if (!traceContext) {
+      //bind the original func callback
+      if (originalCb && (typeof originalCb) === 'function') {
+        commandObj.callback = ns.bind(originalCb);
+        argument[0] = commandObj;
+      }
       return original.apply(proxy, argument);
     }
     var spanRecorder = traceContext.spanRecorder;
     if (!traceContext.hasInit()) {
       //redis must be a spanEvent because it's a terminal/destinationId
       //so we don't trace here
+      //bind the original func callback
+      if (originalCb && (typeof originalCb) === 'function') {
+        commandObj.callback = ns.bind(originalCb);
+        argument[0] = commandObj;
+      }
       return original.apply(proxy, argument);
     }
 
@@ -41,7 +53,6 @@ var wrap = function (redis) {
     spanEventRecorder.recordApi('redis.RedisClient.prototype.internal_send_command');
     spanEventRecorder.recordAttribute(AnnotationConstants.sql, RedisUtil.getSqlString(commandObj.command, commandObj.args));
     spanEventRecorder.recordDestinationId(PluginConstants.destinationId);
-    var ns = cls.getNamespace(PinpointTraceMetaData.TRACE_CONTEXT);
 
     function redis0command0callback() {
 

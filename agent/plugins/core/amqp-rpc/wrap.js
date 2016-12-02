@@ -27,6 +27,7 @@ var wrap = function (amqpRPC) {
   //modify amqpRPC
   function amqp1rpc0amqpRPC0call(original, proxy, argument) {
 
+    var ns = cls.getNamespace(PinpointTraceMetaData.TRACE_CONTEXT);
     var cmd = argument[0];
     var params = argument[1];
     var original_callback = argument[2];
@@ -38,6 +39,10 @@ var wrap = function (amqpRPC) {
     }
     var traceContext = traceContextFactory();
     if (!traceContext) {
+      //bind the original func callback
+      if (original_callback && (typeof original_callback) === 'function') {
+        argument[2] = ns.bind(argument[2]);
+      }
       return original.apply(proxy, argument);
     }
     var spanRecorder = traceContext.spanRecorder;
@@ -69,7 +74,6 @@ var wrap = function (amqpRPC) {
     if (params.t !== undefined) {
       spanEventRecorder.recordAttribute(AnnotationConstants.topic, params.t);
     }
-    var ns = cls.getNamespace(PinpointTraceMetaData.TRACE_CONTEXT);
 
     //modify callback
     /* jshint unused: false */
