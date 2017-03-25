@@ -61,7 +61,7 @@ ServiceType code must be unique.For more details,please refer to [plugin develop
 pinpoint node agent is licensed under the Apache License, Version 2.0. See LICENSE for full license text.
 
 ```
-Copyright 2017 dmb.star-net.cn Corp.
+Copyright 2017 dmb.star-net.cn
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
