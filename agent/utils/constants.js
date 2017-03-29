@@ -28,7 +28,8 @@ var ConfigConstants = {
   AGENT_APPLICATION_NAME: 'agent.application.name',
   AGENT_SERVICE_TYPE: 'agent.service.type',
   TRACE_METADATA_RETENTION: 'trace.metadata.retention',
-  TRACE_MANAGER_ENABLE: 'trace.manager.enable'
+  TRACE_MANAGER_ENABLE: 'trace.manager.enable',
+  AGENT_MODULE_CACHE: 'agent.module.cache'
 
   //todo add more constants
 

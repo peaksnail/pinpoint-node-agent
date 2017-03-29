@@ -1,13 +1,12 @@
 {
   "name": "pinpoint-node-agent",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "pinpoint node agent",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "dependencies": {
-    "chai": "^3.5.0",
     "async-listener": "^0.6.3",
     "bluebird": "^3.4.6",
     "continuation-local-storage": "^3.1.7",
@@ -27,7 +26,9 @@
     "util": "^0.10.3"
   },
   "devDependencies": {
-    "mocha": "^2.5.3"
+    "mocha": "^2.5.3",
+    "rewire": "^2.5.2",
+    "chai": "^3.5.0"
   },
   "scripts": {
     "test": "mocha"

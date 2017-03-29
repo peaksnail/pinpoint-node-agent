@@ -18,9 +18,13 @@
 //
 
 'use strict';
+require('../../../index.js');
 var expect = require('chai').expect;
-var moduleLoad = require('../../../agent/commons/module/module_load.js');
+var rewire = require('rewire');
+var moduleLoad = rewire('../../../agent/commons/module/module_load.js');
 var MethodDescriptorGenerator = require('../../../agent/utils/method_descriptor_generator.js');
+var ConfigConstants = require('../../../agent/utils/constants.js').ConfigConstants;
+var MODULECACHE = global.PinpointNodejsAgent.conf.get(ConfigConstants.AGENT_MODULE_CACHE);
 
 describe(__filename, function () {
     it('module load', function () {
@@ -31,6 +35,22 @@ describe(__filename, function () {
         var methodDesGenerator = moduleLoad.loadPluginsApiDetails();
         expect(methodDesGenerator).to.be.an.instanceof(MethodDescriptorGenerator);
         expect(Object.keys(methodDesGenerator.methodDescriptorList)).to.have.length.above(1);
+    });
+    it('nodejs agent module cache', function () {
+        if (MODULECACHE) {
+            var https = require('https');
+            var http = require('http');
+            var haveLoaded = moduleLoad.__get__('haveLoaded');
+            expect(haveLoaded['https']).to.be.equal(https);
+            expect(haveLoaded['http']).to.be.equal(http);
+        }
+        if (!MODULECACHE) {
+            var https = require('https');
+            var http = require('http');
+            var haveLoaded = moduleLoad.__get__('haveLoaded');
+            expect(haveLoaded['https']).to.be.not.equal(https);
+            expect(haveLoaded['http']).to.be.not.equal(http);
+        }
     });
 });
 

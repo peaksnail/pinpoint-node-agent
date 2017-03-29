@@ -21,6 +21,7 @@ var _module = require('module');
 var MethodDescriptorGenerator = require('../../utils/method_descriptor_generator.js');
 var path = require('path');
 var PinpointGlobalMethod = require('../../utils/constants.js').PinpointGlobalMethod;
+var ConfigConstants = require('../../utils/constants.js').ConfigConstants;
 var PluginObject = require('./plugin_object.js');
 
 var original_load = _module._load;
@@ -28,6 +29,7 @@ var COREPLUGINDIRNAME = '../../plugins/core';
 var USERPLUGINDIRNAME = '../../plugins/user';
 var COREPLUGINSPATH = path.join(__dirname, path.sep, COREPLUGINDIRNAME);
 var USERPLUGINSPATH = path.join(__dirname, path.sep, USERPLUGINDIRNAME);
+var MODULECACHE = global.PinpointNodejsAgent.conf.get(ConfigConstants.AGENT_MODULE_CACHE, false);
 var logger = loggerFactory.getLogger(__filename);
 
 //get plugins object
@@ -72,7 +74,7 @@ _module._load = function () {
         var filename = _module._resolveFilename(module_name, parent);
         key = filename;
     }
-    if (key in haveLoaded) {
+    if ((key in haveLoaded) && MODULECACHE) {
         instance = haveLoaded[key];
     } else if (key in moduleMap) {
         logger.info('add plugin for ' + key);
@@ -80,12 +82,12 @@ _module._load = function () {
         var wrap = require(pluginObject.getPluginFile(key));
         instance = original_load.apply(this, arguments);
         instance = wrap(instance);
-        haveLoaded[key] = instance;
+        MODULECACHE ? haveLoaded[key] = instance : undefined;
     } else {
         //normal module
         //cache every module,that agent and user app share the common module
         instance = original_load.apply(this, arguments);
-        haveLoaded[key] = instance;
+        MODULECACHE ? haveLoaded[key] = instance : undefined;
     }
 
     return instance;
