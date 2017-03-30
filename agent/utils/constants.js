@@ -23,7 +23,7 @@ var ConfigConstants = {
   PROFILER_COLLECTOR_IP: 'profiler.collector.ip',
   PROFILER_COLLECTOR_SPAN_PORT: 'profiler.collector.span.port',
   PROFILER_COLLECTOR_TCP_PORT: 'profiler.collector.tcp.port',
-  PROFILER_COLLECTOR_SPAN_STAT_PORT: 'profiler.collector.stat.port',
+  PROFILER_COLLECTOR_STAT_PORT: 'profiler.collector.stat.port',
   AGENT_ID: 'agent.id',
   AGENT_APPLICATION_NAME: 'agent.application.name',
   AGENT_SERVICE_TYPE: 'agent.service.type',
