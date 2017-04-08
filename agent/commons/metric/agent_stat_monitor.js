@@ -42,10 +42,10 @@ function createTJvmGc(stat) {
     //this is rss
     tJvmGc.jvmMemoryHeapUsed = stat.memory;
     tJvmGc.jvmMemoryHeapMax = heap_max_memory;
-    tJvmGc.jvmMemoryNonHeapUsed = 0;
-    tJvmGc.jvmMemoryNonHeapMax = 0;
-    tJvmGc.jvmGcOldCount = 0;
-    tJvmGc.jvmGcOldTime = 0;
+    tJvmGc.jvmMemoryNonHeapUsed = -1;
+    tJvmGc.jvmMemoryNonHeapMax = -1;
+    tJvmGc.jvmGcOldCount = -1;
+    tJvmGc.jvmGcOldTime = -1;
     var data = {stat: stat, tJvmGc: tJvmGc};
     return bluebird.resolve(data);
 }
