@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <properties>
-        <spring.version>4.2.5.RELEASE</spring.version>
+        <spring.version>5.2.22.RELEASE</spring.version>
         <pinpoint.version>1.6.0-SNAPSHOT</pinpoint.version>
     </properties>
 
